@@ -1,0 +1,197 @@
+/**
+ * @license
+ * ayo.css - v0.1
+ * Copyright (c) 2014, Alexandre Ayotte
+ *
+ * ayo.css is licensed under the MIT License.
+ * https://www.opensource.org/licenses/MIT
+**/
+
+	* {
+	    box-sizing: border-box;
+	}
+	.displaynone {
+		display:none !important;
+	}
+	html {
+		touch-action: manipulation;
+	}
+	.hideinfo {
+		visibility:hidden;
+	}
+	.gris {
+		color:#797979;
+	}
+	.noir {
+		color:#000;
+	}
+	.blanc {
+		color:#fff;
+	}
+	.force-center {
+		text-align:center !important;
+	}
+	.force-left {
+		text-align:left !important;
+	}
+	.pad4x16 {
+		padding:4px 16px;
+	}
+	.pad0x16 {
+		padding:2px 16px;
+	}
+	.padtopSign {
+		margin-top:6px;
+	}
+	.bleedTop {
+		margin-top:-4px;
+	}
+	.pad24x16 {
+		//padding:20px 16px;
+		padding:24px 24px;
+	}
+	.w20 {
+		width:20%; display:block; float:left; 
+	}
+	.w100 {
+		width:100%; display:block;
+	}
+	.w80 {
+		width:80%; display:block; float:left; 
+	}
+	.w33 {
+		width:33%; display:block; float:left; 
+	}
+	.w66 {
+		margin-left:2%;
+		width:65%; display:block; float:left; 
+	}
+	
+	.force100pcent {
+		width:100% !important;
+	}
+	.ayotable {
+		width:auto;
+		margin-bottom:3px;
+		white-space: normal;/* pcq un div parent class "page" force whote-space:nowrap */
+	}
+	.ayotable td, .ayotable th {
+		padding: 5px 9px;
+		border:1px solid #dfdfdf;
+	}
+	.ayotable th {
+		border-bottom:3px solid #ccc;
+		border-top:3px solid #ececec;
+	}
+	.grayborder {
+		border:1px solid #dfdfdf;
+	}
+
+	.noborders {
+		padding:0;
+		padding-left:12px;
+		margin:0;
+		border-width:0;
+		border:none;
+	}
+	
+	
+	.petitAnimGif {
+		border:none;
+		position:absolute; left:0px; top:0px;
+		width: 30px;
+		height:30px;
+	}
+	.petitAnimLoader {
+		display:inline-block;
+		width: 30px;
+		height:30px;
+		position:relative;
+		top:-6px;
+		padding-top:4px;
+		font-size:12px;
+		text-align: center;
+		background:none;
+	}
+	
+	.panCursor {
+		cursor:move;
+	}
+	.clickCursor {
+		cursor:pointer;
+	}
+	
+	#floatingfield {
+	    /* Height & width depends on how you want to reveal the overlay (see JS below) */    
+	    width: 110px;
+	    height: auto;
+	    position: absolute; /* Stay in place */
+	    z-index: 9; /* Sit on top */
+	    left: 5px;
+	    top: 100px;
+	    background-color: #fff;
+	    overflow: hidden; /* Disable BOTH scroll */
+		white-space:normal;
+		visibility:hidden;
+	}
+	#floatingdelete, #floatingadd {
+	    position: absolute; /* Stay in place */
+	    z-index: 1; 
+	    left: 5px;
+	    top: 150px;
+	}
+	
+	#UIoverlay {
+		position:fixed;
+		top:0; left:0;
+		width:100%;
+		height:auto;//100%;
+        background: none;
+		vertical-align: top;
+		text-align:center; 
+	}
+	#loginPOP {
+		margin:auto; padding:12px;
+		margin-top:10%;
+		width:500px; height:auto;
+		border:2px solid #2f6771;
+		color:#2f6771;
+		background-color:#fff;//6cc1ce
+	}
+	#loginMESS {
+		padding:4px;
+		color:#fff;
+		background-color:#2f6771;//cef6ff; //59b6b9;//6cc1ce
+		text-align:center; font-weight:bold;
+		width:100%;
+	}
+	#loginPOP_2 {
+		text-align:center;
+		display:none;
+	}
+	#loginPOP table {
+		width:100%;
+	}
+	#loginPOP input {
+		width:97%;
+	}
+    
+
+	#smalllogin {
+		margin:0px 32px;
+		float:right;
+		text-align:right; 
+	}
+	#pseudoshown {
+		margin:6px 8px;
+		opacity:1;
+		color:#cef6ff;//59b6b9;
+	}
+	.div4spinner {
+		height: 80px; 
+		font-size:54px; 
+		color:#92c5ff;
+		text-align:center;
+		vertical-align:middle;
+	}
+	

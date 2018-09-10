@@ -1,0 +1,5 @@
+
+ErrorDocument 404 /oups404.php
+
+AddType audio/mp4 m4a
+AddType audio/ogg ogg oga

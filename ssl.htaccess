@@ -1,0 +1,8 @@
+RewriteEngine on
+RewriteCond %{HTTPS} !=on
+RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+ErrorDocument 404 /oups404.php
+
+AddType audio/mp4 m4a
+AddType audio/ogg ogg oga
