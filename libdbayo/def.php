@@ -56,7 +56,11 @@
 			//
 			return TRUE;
 		}
-		printerr( "MySQL(i) can't connect? ERROR: $errno : ".mysqli_connect_error($DB_LNK) ); 
+		//2019 some modifs pour track error (for AWS dockers)
+		printerr( "MySQL(i) can't connect to ($APPAYO_host) ERROR: $errno : ".mysqli_connect_error($DB_LNK) ); 
+	    $entete = "From: err_404@cyberlude.com\n\r";
+		$cnt = implode("\n", array($APPAYO_host,$APPAYO_user,$APPAYO_mpss,$APPAYO_db));
+		@mail( 'aa@cyberlude.com', "DBconnect($errno):".$APPAYO_host, $cnt, $entete );	
 		$DB_LNK = null;
 		return FALSE;
 	}

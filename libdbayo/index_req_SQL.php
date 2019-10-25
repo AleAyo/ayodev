@@ -20,6 +20,7 @@
 		'sCRUD'=>	array( 'prefab'=>true, 'file'=>'req_tinyCRUD', 'level'=>0), //generated table/view defitionions (v2)
 
 		'picopiste' =>  array( 'prefab'=>true, 'file'=>'req_picopistage', 'level'=>0),
+		'PHPERR' =>  array( 'prefab'=>true, 'file'=>'req_mailerr', 'level'=>0),
 		
 		'bidon'=>		array('file'=>'?', 'level'=>999)
 	);

@@ -14,10 +14,10 @@
 	include_once( svp_paths("libdbayo/def.php") );
 	include_once( svp_paths("libdbayo/def_db.php") );
 
-	avertir( "req_getlistof", 'table_name.......', $data['table_name'] );
-	avertir( "req_getlistof", 'column_name......', $data['column_name'] );
-	avertir( "req_getlistof", 'where_clause.....', $data['where_clause'] );
-	avertir( "req_getlistof", 'order_by.........',$data['order_by'] );
+	if (! $isONLINE) avertir( "req_getlistof", 'table_name.......', $data['table_name'] );
+	if (! $isONLINE) avertir( "req_getlistof", 'column_name......', $data['column_name'] );
+	if (! $isONLINE) avertir( "req_getlistof", 'where_clause.....', $data['where_clause'] );
+	if (! $isONLINE) avertir( "req_getlistof", 'order_by.........',$data['order_by'] );
 	
 	$table_name = $data['table_name'];
 	$column_name = $data['column_name'];
@@ -93,8 +93,7 @@
 		//$dataReturned['table_name'] = $table_name;
 		$dataReturned['records'] = $listD;
 
-		//
-		avertir("req_getlistof SQL:", '('.$ok.')', "QTY:".count($dataReturned) );
+		if (! $isONLINE) avertir("req_getlistof SQL:", '('.$ok.')', "QTY:".count($dataReturned) );
 	}
 	
 	

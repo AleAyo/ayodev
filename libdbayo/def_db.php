@@ -50,7 +50,7 @@
 		$kl = keys2list($keys);
 		if (!$specialWhereClause) $specialWhereClause = "id=`$someID`";
 		$q = "SELECT $kl FROM $tbl WHERE $specialWhereClause";///// id = `$someID`";
-		$r = db_query( $q ); if ($r && ($DETAIL = mysqli_fetch_array( $r, MYSQLI_NUM ))) $qty=1; else $qty=0;
+		$r = db_query( $q ); if ($r && ($DETAIL = mysqli_fetch_array( $r, MYSQLI_ASSOC ))) $qty=1; else $qty=0;
 		//--existe?
 		if ($qty<1) {
 			return array( "ok"=> false, "qty"=> 0, "error"=> "ID inexistant", "query"=> $q );
@@ -63,7 +63,7 @@
 		global $trackEachQueryIntoLogFile;
 		//
 		$sep = '';
-		if ($old_vals!=null) {$rb = "UPDATE $tbl SET ";} else {$rb='PAS SPÉCIFIÉ';} //--rollback request
+		if ($old_vals!=null) {$rb = "UPDATE $tbl SET ";} else {$rb='## old_vals PAS SPÉCIFIÉ';} //--rollback request
 		$q  = "UPDATE $tbl SET ";
 	
 		foreach( $keys as $ky ) {
@@ -129,7 +129,7 @@
 		//--verifier si le id n'existe pas----
 		//PAS BESOIN ICI :  $kl = keys2list($keys);
 		$q = "SELECT id FROM $tbl WHERE id = `$someID`";
-		$r = db_query( $q ); if ($r && ($DETAIL = mysqli_fetch_array( $r, MYSQLI_NUM ))) $qty=1; else $qty=0;
+		$r = db_query( $q ); if ($r && ($DETAIL = mysqli_fetch_array( $r, MYSQLI_NUM ))) $qty=1; else $qty=0; // NUM ou ASSOC ? DETAIL inutilisé anyway!
 		//--existe?
 		if ($qty>0) {
 			return array( "ok"=> false, "qty"=> 0, "error"=> "ID existant", "query"=> $q );
@@ -189,7 +189,7 @@
 		//    !!!!!!!!!!
 		//
 		//$trackEachQueryIntoLogFile = 1;
-		$r = db_query( $q ); if ($r && ($DETAIL = mysqli_fetch_array( $r, MYSQLI_NUM ))) $qty=1; else $qty=0;
+		$r = db_query( $q ); if ($r && ($DETAIL = mysqli_fetch_array( $r, MYSQLI_ASSOC ))) $qty=1; else $qty=0;
 		//--existe?
 		
 		//$RESULTS = db_query_2_array( $q );
