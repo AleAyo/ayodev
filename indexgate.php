@@ -65,19 +65,21 @@
 	if (is_array($embedThoseJS)) {
 		$embedThoseJS = array( 
 			explode(",", "AYO, LANG, MISC, HTML, FORMKIT, LOGIN, DB, myGateApplication") , 
-			array( 'libayo/ayo', 'libayo/lang', 'libayo/misc', 'libayo/html', 'libayo/formkit', 'appcode/login', 'libayo/database', 'libayo/ayo_gate_app' )
+			array( 'libayo/ayo', 'libayo/lang', 'libayo/misc', 'libayo/html', 'libayo/formkit', 'appcode/'.$subAPP.'login', 'libayo/database', 'libayo/ayo_gate_app' )
 		);
 		//print "<script type='text/javascript'><!--\n";
 		print embedManyJSandStartLast( $embedThoseJS[0], $embedThoseJS[1] );
 		//print "--></script>\n";
 	}
 	else {
-		print "<script type='text/javascript' data-main='ayo_gate_config.js' src='$HEREorTHERE"."lib/require.js'></script>\n";
-		print "<script type='text/javascript'><!--\n window.applicationStart = function(){}\n--></script>\n";
+		console.warn("deprecated require.js");
 	}
 ?>
 </head>
 <?php
-	include svp_paths("appcode/$whichHtmlBody.php" );
+	
+	include_once svp_paths("appcode/$whichHtmlBody.php" );
+	include_once $HEREorTHERE."mailerr.php";
+	 
 ?>
 </html>

@@ -1,7 +1,7 @@
 <?php
 		/**
 		 * @license
-		 * ayo.php - v0.3.0
+		 * ayo.php - v0.1.0
 		 * Copyright (c) 2014, Alexandre Ayotte
 		 *
 		 * code is licensed under the MIT License.
@@ -210,8 +210,8 @@
 				//print2log( "--- is_array(json) : ". is_array($json) );
 			}
 			else {
-				$messerr = "can't load current session file: $SESSYOID";
-				print2log( $messerr );
+				//$messerr = "can't load current session file: $SESSYOID";
+				//print2log( $messerr );
 				//
 				//  erreur majeure... non?
 				//
@@ -225,10 +225,18 @@
 
 		
 		
+		//$hds = array();
+		//foreach( $_SERVER as $sk => $sv ) $hds[] = "SERVER[$sk] = [$sv]\n";
+		//avertir( 
+		//$trace_headers = implode( '', $hds );
+		// );
+		//avertir($_SERVER["HTTP_REFERER"]);
+		
 		//pas ici, chaque truc le fait... NON ici... ou selon variable?
+		$LOGSUBDIR = "logs_".date( "Y_m", time() );
 		$LOGFILENAME = "log_$SESSYOID";
 		if ($empty_traces_session && (!$isCHATBOT)) {
-			$empty_fh_please = $empty_traces_session;
+			$empty_fh_please = true;
 			if ($fh) fclose($fh);
 			$fh = null;
 		}
@@ -466,7 +474,7 @@
 					}
 					elseif ($act == 'HLO') {
 						$dataReturned = $user_information;
-						//print2log( "just checking!", $user_information['email'], $user_information['level'], false );
+						print2log( "just checking!", $user_information['email'], $user_information['level'], false );
 						$ok = 'ok';
 					}
 					else {
@@ -501,11 +509,32 @@
 							// * * *
 							//
 							$rollback = $dataReturned['rollback'];
-							if ($ok && $rollback) {
-								print2log( "query   :", $dataReturned['query'] );
-								print2log( "rollback:", $rollback, "USAGER: $usr_id" );
-								$dataReturned['rollback']=null;
-								$dataReturned['query']=null;
+							$query = $dataReturned['query'];
+							/////////2019, note: les seules query qui retourne query & rollback sont (def_db.php) db_update, db_new, db_delete
+							/////////            donc seuls les usager ayant userlevel OK vont recevoir la query+rollback, DONC, pas besoin de les "cacher" au browser
+							if ($ok && ($rollback || $query)) {
+								//
+								// ici, c'est juste un backup si le client JS perd/bug/crash ? ...sauf qu'on saura jamais si ça a été écrit
+								//
+								$currentMYSQLfollowup = $SESSYOINFO[ 'MYSQLfollowup' ];
+								//
+								if ($currentMYSQLfollowup) {
+									$query = "\n".$query;
+									$currentMYSQLfollowup = base64_decode( $currentMYSQLfollowup );
+								} 
+								else $currentMYSQLfollowup = '';
+								//
+								$MYSQLfollowup = base64_encode( $currentMYSQLfollowup . $query . "\n### ". $rollback );
+								$SESSYOINFO[ 'MYSQLfollowup' ] = $MYSQLfollowup;
+								//UNIT TEST!! $SESSYOINFO[ 'MYSQLfollowupDEBUG' ] = base64_decode($MYSQLfollowup);
+								//
+								$ssyoid = $SESSYOINFO[ 'sessyo' ];
+								writeSESSYO( $ssyoid, $SESSYOINFO );
+								//
+								/////////	print2log( "query   :", $dataReturned['query'] );
+								/////////	print2log( "rollback:", $rollback, "## USAGER: [$usr_id]" );
+								/////////	$dataReturned['rollback']=null;
+								/////////	$dataReturned['query']=null;
 							}
 							//
 							//vertir( "data_to_send.count()", count($data_to_send) );

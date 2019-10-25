@@ -1,15 +1,16 @@
-Copyright (c) [2014..2018] [Alexandre Ayotte]
+Copyright (c) [2014] [Alexandre Ayotte]
 The following license applies ONLY to these specific parts of this software:
 
 	/ayo.php
 	/ayo_gate.php
+	/ayoversions.php  ---keeping tracks of XX et YY below
 	/build.php
 	/index.php
 	/indexgate.php
 	/oups404.php
 	/preconfig.php
-	all * files in /libayo/
-	all * files in /libdbayo/
+	all * files in /libayo_XX/
+	all * files in /libdbayo_YY/
 
 ====
 

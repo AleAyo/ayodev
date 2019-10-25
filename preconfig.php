@@ -9,11 +9,13 @@
 	
 	$fh = null;
 	$empty_fh_please = false;
+	$LOGSUBDIR = null;
+	$LAST_LOGFILEPATHANDNAME = null;
 	function print2log( $mess,$b='',$c='',$d='' ) {
-		global $fh, $empty_fh_please, $LOGFILENAME, $LOGSUBDIR;
+		global $fh, $empty_fh_please, $LOGFILENAME, $LOGSUBDIR, $LAST_LOGFILEPATHANDNAME;
 		if (!$LOGFILENAME) $LOGFILENAME = 'ayolog';
 		if (!$fh) {
-			if (isset($LOGSUBDIR)) {
+			if (isset($LOGSUBDIR) && ($LOGSUBDIR!="")) {
 				$myPath = "log/$LOGSUBDIR/";
 				mkdir( $myPath, 0777 );
 			}
@@ -24,17 +26,19 @@
 			if ($empty_fh_please) {
 				$fh=fopen($myFile, 'w'); // or die("can't open file");
 				if (!$fh) return;//-----------------------------------------------> return
-				//$myPath2 = "log/$LOGSUBDIR/";
-				fwrite($fh, "<?php /*---- $empty_fh_please ... [$myPath] \n");
+				//
+				fwrite($fh, "<?php /*---- empty[$empty_fh_please] ... path[$myPath] \n");
 				$empty_fh_please = false;
 			}
 			else {
 				$fh=fopen($myFile, 'a'); // or die("can't open file");
 				if (!$fh) return;//-----------------------------------------------> return
 			}
+			
+			$LAST_LOGFILEPATHANDNAME = $myFile;
 
 			$ddd = date("Y-m-d G:i:s");
-			fwrite($fh, "\n".$ddd ." ..................\n");
+			fwrite($fh, "\n".$ddd ." ..................path[$myPath] \n");
 		}
 		if (isset($b)) $mess .= " $b";
 		if (isset($c)) $mess .= " $c";

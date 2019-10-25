@@ -1,41 +1,55 @@
 <?php
-		/**
-		 * @license
-		 * index.php - v0.3.0
-		 * Copyright (c) 2014, Alexandre Ayotte
-		 *
-		 * code is licensed under the MIT License.
-		 * http://www.opensource.org/licenses/MIT
-		 */
-
+/**
+ * @license
+ * index.php - v0.1.0
+ * Copyright (c) 2014, Alexandre Ayotte
+ *
+ * code is licensed under the MIT License.
+ * http://www.opensource.org/licenses/MIT
+ */
 	
 	// pour inadmin.php :
 	if (!isset($whichConfig)) $whichConfig = 'config';
 	if (!isset($whichHtmlBody)) $whichHtmlBody = 'appbody';
 	
 	include_once "__serv.php";
+	if (!isset($WHERAYO)) $HEREorTHERE = "./"; 
+	else $HEREorTHERE = $WHERAYO;
 	
 	include_once $HEREorTHERE."preconfig.php";
 	
-	include_once "app/$whichConfig.php";
+	include_once "app/$whichConfig.php"; 
+	///WARNING 2019---ici config could check for CACHE files, and if fail, exit("mess") & print2log
+
 	
 	$ici = '';
 	if (!$isONLINE) $ici=' LOCAL';
 	if ($isDEVSITE) $ici=' DEV';
 	
-	function ieversion() {
+	$ua = $_SERVER['HTTP_USER_AGENT'];
+	
+	function ieversion( $ua ) {
+		$matches = array();
+		preg_match('/MSIE (.*?);/', $ua, $matches);
+		if (count($matches)<2) {
+			$matches = array();
+			preg_match('/Trident\/\d{1,2}.\d{1,2}; rv:([0-9]*)/', $ua, $matches);
+		}
+		if (count($matches)>1) return floatval($matches[1]);
+		return 6666;
+		/*
 		$reg = array();
-		$match = preg_match('/MSIE ([0-9]+.[0-9]+)/',$_SERVER['HTTP_USER_AGENT'],$reg);
-		if($match==0)
-			return 6666;
-		else
-			return floatval($reg[1]);
+		$match = preg_match('/MSIE ([0-9]+.[0-9]+)/',$ua,$reg);
+		if ($match==0) return 6666;
+		//
+		return floatval($reg[1]);
+		*/
 	}
 	
 	$ie_minimal = configORdefault( 'ie_minimal', null );
 	if (isset($ie_minimal)) {
-		$ie_minimal = 1*$ie_minimal;
-		$ie_current = ieversion();
+		$ie_minimal = 1 * $ie_minimal;
+		$ie_current = ieversion( $ua );
 		$ie_redirect_page = configORdefault( 'ie_redirect_page', null );
 		if (isset($ie_redirect_page) && ($ie_current < $ie_minimal)) {
 			print2log( "TOO OLD IE: ", $ie_current );
@@ -44,19 +58,19 @@
 		}
 	}
 	
-	$window_title = configORdefault( 'window_title', 'APP TITLE HERE' );
-	$stylesheets = configORdefault( 'stylesheets', 0 );
-	$cookie_prefix =     configORdefault( 'cookie_prefix', 'AYOKIT' );
-	$app_version =  configORdefault( 'app_version', 'v2016sept13' );
+	$window_title =    configORdefault( 'window_title', 'APP TITLE HERE' );
+	$stylesheets =     configORdefault( 'stylesheets', 0 );
+	$cookie_prefix =   configORdefault( 'cookie_prefix', 'AYOKIT' );
+	$app_version =     configORdefault( 'app_version', 'v2016sept13' );
 
 	$ressource_site =  configORdefault( 'ressource_site', false );
 	
 	$with_empty_gate =  configORdefault( 'with_empty_gate', false );
-	$with_LZstring =  configORdefault( 'with_LZstring', false );
+	$with_LZstring =    configORdefault( 'with_LZstring', false );
 	$outside_lib_scripts = configORdefault( 'outside_lib_scripts', false );
 
-	$embedThoseJS = configORdefault( 'embedThoseJS', false );
-	$embedTheseCSS = configORdefault( 'embedTheseCSS', false );
+	$embedThoseJS =     configORdefault( 'embedThoseJS', false );
+	$embedTheseCSS =    configORdefault( 'embedTheseCSS', false );
 	
 	if ($with_empty_gate === true) {
 		include $HEREorTHERE."ayo_gate.php";
@@ -65,6 +79,7 @@
 			include "indexgate.php";
 			exit(0);
 		}
+		//print2log( "OK!!! ---> FORM THE GATE -- SESSYOID: ", $SESSYObyGATE );
 	}
 	else $SESSYObyGATE = null;
 	
@@ -85,6 +100,9 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title><?php echo $window_title.$ici; ?></title>
 <?php
+		//
+		print "<link rel='icon' href='favicon.png' />\n";
+		
 		if (is_array($stylesheets)) {
 			$totstylesheets = count($stylesheets);
 			for($i=0; $i < $totstylesheets; $i++) {
@@ -113,7 +131,7 @@
 		echo "var app_version = '$app_version';\n";
 		echo "var window_title = '$window_title';\n";
 		echo "var main_js_name = '$main_js_name';\n";
-		// 
+		//if ($isDEVSITE) 
 		echo "var isDEVSITE = ".($isDEVSITE ? "true" : "false").";\n";
 		echo "var isONLINE = ".($isONLINE ? "true" : "false").";\n";
 		
@@ -129,13 +147,13 @@
 		print "\n\n window.CURLANG = '$curLang';\n\n";	
 		//
 		//2016-09-14
-		//2017-03-20 : first load was too much revealing of the data to the non-logged visitor. 
-		//             there's an empty index.php gate first loaded.
+		//2017-03-20 : first load was too much revealing of the data to the non-logged visitor. there's an empty index.php gate first loaded.
 		informjsSESSYO( $SESSYObyGATE );
+		echo "console.log( 'SESSYObyGATE=', '$SESSYObyGATE' );\n";
 
 		echo "window.prepend_sql = {};\n";
 		foreach($prepend_sql as $prepsql) {
-			include 'app/db/'.$prepsql.'.php';
+			include $prepsql.'.php'; //was with 'app/db/'.
 		}
 		
 	?>
@@ -179,7 +197,7 @@
 <?php
 	if ($with_LZstring) {
 		print "<script type='text/javascript'><!--LZ\n";
-		svp_paths( 'lib/lz-string.js' );//$HEREorTHERE.
+		readfile( $HEREorTHERE.'lib/lz-string.js' );
 		print "--></script>\n";
 	}
 	if (is_array($outside_lib_scripts)) {
@@ -201,15 +219,17 @@
 				print "\n--></script>\n";
 			}
 		}
+		//print "<script type='text/javascript'><!--\n";
 		print embedManyJSandStartLast( $embedThoseJS[0], $embedThoseJS[1] )."\n\n";
+		//print "\n--></script>\n";
 	}
 	else {
-		print "<script type='text/javascript' data-main='ayo_config.js' src='$HEREorTHERE"."lib/require.js'></script>\n";
-		print "<script type='text/javascript'><!--\n window.applicationStart = function(){}\n--></script>\n";
+		console.warn("deprecated require.js");
 	}
 ?>
 </head>
 <?php
 	include svp_paths("appcode/$whichHtmlBody.php" );
+	include_once $HEREorTHERE."mailerr.php";
 ?>
 </html>
