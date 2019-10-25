@@ -281,11 +281,14 @@ define(
 					var new_app_version = asObject.new_app_version
 					if (app_version != new_app_version) {
 						console.log("new version available :", new_app_version, " --vs-- ", app_version);
-						if (ayo.pleaseReloadHandler) ayo.pleaseReloadHandler();
-						app_version = new_app_version;
+						if (app_version && new_app_version) {
+							if (ayo.pleaseReloadHandler) ayo.pleaseReloadHandler();
+							app_version = new_app_version;
+						}
 					}
 
 					//----checking current app & lib versions VS when we were loaded
+					/*
 					var current_paths = asObject.version_app
 					if ((current_paths != null) && (!byebyeonquitte) && (!window.ressource_site)) {
 						var qtynew = 0
@@ -316,6 +319,7 @@ define(
 							//konsole.log("HELLO ::: Reçu version du logiciel : pas de changement!")
 						}
 					}
+					*/
 					//
 
 					var dataReceived = asObject.dataReceived

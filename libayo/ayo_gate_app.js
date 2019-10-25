@@ -62,7 +62,13 @@ define(
 			LOGIN.usagerNonidentifiePermis = false
 			LOGIN.installYourself( "porte", "userInfoLineAndDisconnectBtn", null, false );
 			
-			groupinterieur.innerHTML = "<form id=FORM_SESSYOID method=POST action='./'><input id=FLD_SESSYOID type=HIDDEN name=SESSYOID value=''></form>";
+			//2019 05 22 mai -- bug ayo_gate because many endpoints in same domain -- pas entièrement réglé cependant... :-/
+			//console.log( window.location )
+			var href = window.location.href
+			console.log(" NOUS RELOADERONS CECI: ", href )
+			
+			groupinterieur.innerHTML = "<form id=FORM_SESSYOID method=POST action='"+href+"'><input id=FLD_SESSYOID type=HIDDEN name=SESSYOID value=''></form>";
+			//groupinterieur.innerHTML = "<form id=FORM_SESSYOID method=POST action='./'><input id=FLD_SESSYOID type=HIDDEN name=SESSYOID value=''></form>";
 			}
 
 		return application

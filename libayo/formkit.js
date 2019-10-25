@@ -245,11 +245,11 @@ define(
 			var s = ""
 			s+= "<table class='login_table' border=0><tr>";
 			s+="<td class='login_td login_tdicon'><i class='fa fa-envelope-o fa-fw' aria-hidden='true'></i></td>";
-			s+="<td class='login_td'><input class='login_field' type='email' autocomplete='off' autocapitalize='off' placeholder='"+txtEmail+"' "+ 
+			s+="<td class='login_td'><input class='login_field onlyClick' type='email' autocomplete='off' autocapitalize='off' placeholder='"+txtEmail+"' "+ 
 					"id='"+email_id+"' inputkit='"+kit.id+"' onkeydown='"+generalFilterFieldsFUNC+"(event)'></td>";
 			s+="</tr><tr>";
 			s+="<td class='login_td login_tdicon'><i class='fa fa-key fa-fw' aria-hidden='true'></i></td>";
-			s+="<td class='login_td'><input class='login_field' type='password' autocomplete='off' autocapitalize='off' placeholder='"+txtMtpss+"' "+ 
+			s+="<td class='login_td'><input class='login_field onlyClick' type='password' autocomplete='off' autocapitalize='off' placeholder='"+txtMtpss+"' "+ 
 					"id='"+psswd_id+"' inputkit='"+kit.id+"' onkeydown='"+generalFilterFieldsFUNC+"(event)'></td>";
 			s+="</tr><tr>";
 			s+="<td></td>";
